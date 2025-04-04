@@ -2,9 +2,14 @@ const express = require('express');
 const app = express();
 const path = require('path');
 
-app.set('views', path.join(__dirname, 'Components'));
+// Set the directory for views (EJS templates)
+// app.set('views', path.join(__dirname, 'Components', 'views')); // Changed to 'Components/views'
+// app.set('view engine', 'ejs');
+
+// Serve static files (images, CSS, JS)
 app.use(express.static(path.join(__dirname, 'Components', 'public')));
-app.set('view engine', 'ejs'); // Corrected this line
+
+// Route: /index
 app.get('/index', (req, res) => {
     const socialLinks = {
         facebook: '',
@@ -12,13 +17,12 @@ app.get('/index', (req, res) => {
         instagram: 'https://www.instagram.com/',
         linkedin: 'https://www.linkedin.com/in/partha-dey-b418b4302/',
         github: 'https://github.com/deypartha'
-
     };
-    // res.render('index', { socialLinks });
-    res.render("index", { 
+
+    res.sendFile(path.join(__dirname, 'Components', 'index.html'), { 
         socialLinks,
         photoSrc: "/partha.png", 
-        altText: "Partha Dey" ,
+        altText: "Partha Dey",
         photoS: "/photo2.png",
         altT: "Partha Dey",
         project1: "/project1.png",
@@ -28,14 +32,17 @@ app.get('/index', (req, res) => {
         project5: "/touch.png",
     });
 });
+
+// Route: /about
 app.get('/about', (req, res) => {
-    res.render('about');
+    res.sendFile(path.join(__dirname, 'Components', 'about.html'));
 });
+
 app.get('/contact', (req, res) => {
-    res.render('contact');
+    res.sendFile(path.join(__dirname, 'Components', 'contact.html'));
 });
 
-
+// Start the server
 app.listen(5000, () => {
     console.log('Server is running on port 5000');
 });
